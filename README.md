@@ -8,8 +8,12 @@
 
 ```
 .
-├── finance/          # 金融相关项目
-│   └── paper/       # 论文复现相关代码
+├── AI/                    # 人工智能相关项目
+│   └── ...               # AI 项目子目录
+├── Biomedical Research/   # 生物医学研究相关项目
+│   └── ...               # 生物医学研究项目子目录
+├── templates/            # 项目模板目录
+│   └── paper-demo/      # 论文复现项目模板
 ├── LICENSE
 └── README.md
 ```
@@ -27,7 +31,7 @@ Developer Harbor 是量子开发实验室的官方项目成果展示平台。这
 1. 在量子开发实验室官方网站报名参与项目开发
 2. Fork 本仓库到您的 GitHub 账号下
 3. 创建新的功能分支（`git checkout -b feature/your-feature-name`）
-4. 按照规范开发您的功能
+4. 按照规范开发您的功能，可以使用 templates 下的模板复制到您的项目中进行开发，以满足结构规范
 5. 提交代码并推送到您的仓库（`git push origin feature/your-feature-name`）
 6. 通过线下评审后，创建 Pull Request 到本仓库
 
