@@ -1,5 +1,5 @@
 # Developer Harbor
-> 量子开发实验室项目成果展示与代码托管仓库
+> 量子计算实验室项目成果展示与代码托管仓库
 
 [![GitHub stars](https://img.shields.io/github/stars/QBosonCommunity/Developer-harbor)](https://github.com/QBosonCommunity/Developer-harbor/stargazers)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
