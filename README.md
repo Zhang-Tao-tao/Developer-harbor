@@ -9,9 +9,11 @@
 ```
 .
 ├── AI/                    # 人工智能相关项目
-│   └── ...               # AI 项目子目录
+│   ├── Paper/            # 论文复现项目
+│   └── Competition/      # 竞赛项目
 ├── Biomedical Research/   # 生物医学研究相关项目
-│   └── ...               # 生物医学研究项目子目录
+│   ├── Paper/            # 论文复现项目
+│   └── Competition/      # 竞赛项目
 ├── templates/            # 项目模板目录
 │   └── paper-demo/      # 论文复现项目模板
 ├── LICENSE
