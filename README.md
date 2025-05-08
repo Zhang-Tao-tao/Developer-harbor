@@ -1,5 +1,5 @@
 # Developer Harbor
-> 量子计算实验室项目成果展示与代码托管仓库
+> 量子奇点计划项目成果展示与代码托管仓库
 
 [![GitHub stars](https://img.shields.io/github/stars/QBosonCommunity/Developer-harbor)](https://github.com/QBosonCommunity/Developer-harbor/stargazers)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
@@ -11,7 +11,7 @@
 ├── AI/                    # 人工智能相关项目
 │   ├── Paper/            # 论文复现项目
 │   └── Competition/      # 竞赛项目
-├── Biomedical Research/   # 生物医学研究相关项目
+├── Biomedical Research/   # 生物制药研究相关项目
 │   ├── Paper/            # 论文复现项目
 │   └── Competition/      # 竞赛项目
 ├── templates/            # 项目模板目录
@@ -22,7 +22,7 @@
 
 ## 🎯 项目介绍
 
-Developer Harbor 是量子开发实验室的官方项目成果展示平台。这里汇集了来自开发者社区的优秀项目代码，展示了在量子计算领域的创新成果。
+Developer Harbor 是量子奇点计划的官方项目成果展示平台。这里汇集了来自开发者社区的优秀项目代码，展示了在量子计算领域的创新成果。
 
 ## 🚀 参与贡献
 
@@ -30,7 +30,7 @@ Developer Harbor 是量子开发实验室的官方项目成果展示平台。这
 
 ### 开发流程
 
-1. 在量子开发实验室官方网站报名参与项目开发
+1. 在量子奇点计划官方网站报名参与项目开发
 2. Fork 本仓库到您的 GitHub 账号下
 3. 创建新的功能分支（`git checkout -b feature/your-feature-name`）
 4. 按照规范开发您的功能，可以使用 templates 下的模板复制到您的项目中进行开发，以满足结构规范
@@ -83,6 +83,6 @@ Developer Harbor 是量子开发实验室的官方项目成果展示平台。这
 
 ## 🤝 维护者
 
-- 本仓库由量子开发实验室官方团队维护
+- 本仓库由量子奇点计划官方团队维护
 - Pull Request 由指定的仓库维护者进行审核
 - 如有问题，请通过 Issues 与我们联系
