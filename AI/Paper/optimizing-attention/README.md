@@ -24,11 +24,35 @@ cp -r templates/paper-demo/* ./your-project-name/
    - 根据实际需求修改 demo.py
 
 3. 安装依赖：
+
+   - 切换工作目录到experiments
+
+      ```bash
+      cd path/to/project/AI/Paper/optimizing-attention/experiments/
+      ```
+
+   - 创建conda环境
+
+      ```bash
+      conda create -n optimizing-attention python==3.8.10 -y
+      conda activate optimizing-attention
+      ```
+
+   - 安装子模块lqp_py用于admm求解器
+
+      ```bash
+      git submodule init .
+      git submodule update . 
+      ```
+
+   - 安装python依赖库
+   - 安装kaiwu库
+
 ```bash
 pip install -r requirements.txt
 ```
 
-4. 运行示例：
+1. 运行示例：
 ```bash
 python train.py
 ```
