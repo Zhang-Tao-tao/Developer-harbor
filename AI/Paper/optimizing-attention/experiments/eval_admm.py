@@ -7,10 +7,7 @@ import torchvision
 from model import OptimAttn
 from icecream import ic
 from tqdm import tqdm
-import os
-import shutil
-import json
-
+import pandas as pd
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 ic(f"Using device: {device}")
@@ -38,32 +35,32 @@ model = OptimAttn(
     dropout=0.0,
     emb_dropout=0.0
 ).to(device)
-model.load_state_dict(torch.load(f'./saved_model/model_{LOAD_MODEL_NUM_EPOCHS}.pth', map_location=device), strict=True, weight_only=True)
-
-# define accuracy
-def accuracy(output, target):
-    pred = output.argmax(dim=1, keepdim=True)
-    correct = pred.eq(target.view_as(pred)).sum().item()
-    return correct / len(target)
+model.load_state_dict(torch.load(f'./saved_model/model_{LOAD_MODEL_NUM_EPOCHS}.pth', map_location=device, weights_only=True), strict=True)
 
 # training loop
 step_log = {"train_loss": [], "train_acc": [], "test_loss": [], "test_acc": []}
 epoch_log = {"train_loss": [], "train_acc": [], "test_loss": [], "test_acc": []}
     
 model.eval()
-acc_log = []
+df = {'label': [], 'pred': [], 'correct': []}
+for i in range(10):
+    df[f'logits_{i}'] = []
 with torch.no_grad():
     for batch_idx, (data, target) in tqdm(
         enumerate(test_loader), leave=False, total=len(test_loader), desc="Testing"
     ):
         data, target = data.to(device), target.to(device)
         output = model(data)
-        acc = accuracy(output, target)
+        
+        df['label'].extend(target.cpu().numpy().tolist())
+        df['pred'].extend(output.argmax(dim=1).cpu().numpy().tolist())
+        for i in range(10):
+            df[f'logits_{i}'].extend(output[:, i].cpu().numpy().tolist())
+        df['correct'].extend((output.argmax(dim=1) == target).cpu().numpy().tolist())
 
-        step_log["test_acc"].extend(acc)
+df = pd.DataFrame(df)
+df.to_csv(f'eval_admm_result.csv', index=False)
 
-average_acc = sum(step_log["test_acc"]) / len(step_log["test_acc"])
+average_acc = df['correct'].mean()
 
 ic(f"Average test accuracy: {average_acc:.4f}")
-
-json.dump(step_log, open(f"eval_result.json", "w+"), indent=4)
