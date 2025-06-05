@@ -92,19 +92,73 @@ paper-demo/              # 项目模板目录
 
    <span style="color:blue">论文创新点(DP)</span>
 
-- 性能分析
+### 性能分析
 
    <span style="color:blue">实验(LSC)</span>
 
-   - 模型训练
+#### 模型训练
+
+1. 实验配置:
+
+- 数据集：MNIST数据集中的70000张图片，按照6：1划分训练集和测试集
+
+- 实验设备：NVIDIA GeForce RTX 4090 
 
 
 
-   - kaiwuSDK模拟退火推理
+- 训练参数：
+
+<div align="center">
+
+| **参数名**         | **值**             |
+|:-------------------:|:-------------------:|
+| num_epoch          | 50                 |
+| batch_size         | 128                |
+| learning_rate      | 0.001              |
+| optimizer          | Adam               |
+| loss_function      | CrossEntropyLoss   |
+
+</div>
+
+- 模型参数配置：
+
+<div align="center">
+
+| **参数名**     | **值**            |
+|:--------------:|:----------------:|
+| image_size     | (28, 28)         |
+| patch_size     | (4, 4)           |
+| num_classes    | 10               |
+| dim            | 64               |
+| channels       | 1                |
+| dropout        | 0.0              |
+| emb_dropout    | 0.0              |
+
+</div>
+
+2. 实验性能：
+
+
+模型训练的准确率和损失曲线图像如下：
+
+<img src="./images/model_loss_acc.png" width="800" height="200">
+
+
+3. 结果分析:
+
+模型训练的结果表明optimizing-attention模型在MNIST数据集上表现良好，损失迅速下降，且准确率达到88.5%以上。
 
 
 
-   - QBoson CPQC-550 CIM 量子退火真机推理
+
+#### kaiwuSDK模拟退火推理
+
+
+
+#### QBoson CPQC-1 CIM 量子退火真机推理
+
+
+#### 稀疏性分析
 
 
 - 总结讨论
