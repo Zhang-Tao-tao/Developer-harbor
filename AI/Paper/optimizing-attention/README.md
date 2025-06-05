@@ -12,18 +12,7 @@ paper-demo/              # 项目模板目录
 ```
 
 ## 使用方法
-1. 复制模板
-```bash
-# 在目标目录下执行
-cp -r templates/paper-demo/* ./your-project-name/
-```
-
-2. 修改项目信息
-   - 更新 README.md 中的项目说明
-   - 根据需要修改 requirements.txt
-   - 根据实际需求修改 demo.py
-
-3. 安装依赖：
+1. 安装依赖：
 
    - 切换工作目录到experiments
 
@@ -43,27 +32,84 @@ cp -r templates/paper-demo/* ./your-project-name/
       ```bash
       git submodule init .
       git submodule update . 
+      
+      cd admm
+      pip install -e . 
+      cd ..
       ```
 
    - 安装python依赖库
+
+      ```bash
+      pip install torch==2.4.1 torchvision==0.19.1 torchaudio==2.4.1 --index-url https://download.pytorch.org/whl/cu121
+      pip install einops line_profiler icecream tqdm
+      ```
+   
    - 安装kaiwu库
 
-```bash
-pip install -r requirements.txt
-```
+      从[QBoson平台](https://platform.qboson.com/sdkDownload)下载安装kaiwuSDK并解压。
 
-1. 运行示例：
-```bash
-python train.py
-```
+      ```bash
+      pip install kaiwu-1.1.2-py3-none-any.whl 
+      ```
+
+
+
+2. 训练示例：
+
+   ```bash
+   python train.py
+   ```
+
+3. 模拟退火推理示例：
+
+   ```bash
+   python eval.py
+   ```
+
+4. CIM光量子计算机推理实例
+
+   <span style="color:red">TODO</span>
+
+   ```bash
+   python cim.py --image_path xxx.png
+   ```
 
 ## 算法说明
-[在这里添加算法的详细说明，包括：]
 - 算法原理
+
+   <span style="color:red">这里写详细的算法原理(WSL)</span>
+
 - 实现细节
+
+   <span style="color:red">这里写算法实现的流程，模型流程(DP)</span>
+
 - 关键步骤
+
+   <span style="color:blue">这里简要讲解整个文章的流程，分条列举文章的优势，为什么是优势(WSL)</span>
+
 - 创新点
+
+   <span style="color:blue">论文创新点(DP)</span>
+
 - 性能分析
+
+   <span style="color:blue">实验(LSC)</span>
+
+   - 模型训练
+
+
+
+   - kaiwuSDK模拟退火推理
+
+
+
+   - QBoson CPQC-550 CIM 量子退火真机推理
+
+
+- 总结讨论
+
+   <span style="color:blue">各种各样乱七八糟的问题(DP)</span>
 
 ## 作者信息
 - 作者姓名：[请填写作者姓名]
