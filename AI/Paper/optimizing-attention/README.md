@@ -141,7 +141,7 @@ paper-demo/              # 项目模板目录
 
 模型训练的准确率和损失曲线图像如下：
 
-<img src="./images/model_loss_acc.png" width="1200" height="400">
+<img src="./images/model_loss_acc.png" width="1200" height="800">
 
 
 3. 结果分析:
