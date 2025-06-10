@@ -47,6 +47,8 @@ class SASolver:
             assert A is None, "no constrain support"
             assert b is None, "no constrain support"
 
+        device = Q.device
+        dtype = Q.dtype
         Q = Q.cpu().detach().numpy()
         p = p.cpu().detach().numpy()
         batch_size = Q.shape[0]
@@ -55,6 +57,7 @@ class SASolver:
             for b in tqdm(range(batch_size), desc='Solving...', leave=False):
                 result.append(self._solve_step(Q[b, :, :], p[b, :]))
             results = np.stack(result, axis=0)
+            results = torch.from_numpy(results).to(device, dtype=dtype)
             return results
         else:
             num_process = self.args_solver['num_process'] if batch_size >= self.args_solver['num_process'] else batch_size       
@@ -94,6 +97,7 @@ class SASolver:
                     pool.join()
                     exit(-1)
             results = np.concatenate(results, axis=0)
+            results = torch.from_numpy(results).to(device, dtype=dtype)
             return results
     
     def _warpper_parallel_solve_step(self, Q, p):
@@ -130,7 +134,7 @@ class SASolver:
         x = kw.qubo.get_array_val(x, sol_dict)
         return x
         
-
+        
 class Attention(nn.Module):
     def __init__(
         self,

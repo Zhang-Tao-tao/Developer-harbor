@@ -1,5 +1,4 @@
 LOAD_MODEL_NUM_EPOCHS = 49
-BATCH_SIZE = 128
 
 import torch
 from torch.utils.data import Dataset, DataLoader
@@ -8,6 +7,7 @@ from model import OptimAttn
 from icecream import ic
 from tqdm import tqdm
 import pandas as pd
+import os
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 ic(f"Using device: {device}")
@@ -22,7 +22,7 @@ test_dataset = torchvision.datasets.MNIST(
     root="./data", train=False, download=True, transform=transform
 )
 test_loader = DataLoader(
-    test_dataset, batch_size=BATCH_SIZE, shuffle=False
+    test_dataset, batch_size=1, shuffle=False
 )
 
 # define model
@@ -39,7 +39,7 @@ model = OptimAttn(
         'user_id': '69878024601862146',
         'sdk_code': "0i4T6LY1XygfwN3MWa8Fjq27OaT0sq",
         'is_check': False,
-        'num_process': 32,
+        'num_process': 25,
     },
 ).to(device)
 model.load_state_dict(torch.load(f'./saved_model/model_{LOAD_MODEL_NUM_EPOCHS}.pth', map_location=device, weights_only=True), strict=True)
@@ -49,24 +49,34 @@ step_log = {"train_loss": [], "train_acc": [], "test_loss": [], "test_acc": []}
 epoch_log = {"train_loss": [], "train_acc": [], "test_loss": [], "test_acc": []}
     
 model.eval()
-df = {'label': [], 'pred': [], 'correct': []}
-for i in range(10):
-    df[f'logits_{i}'] = []
+if not os.path.exists('eval_kaiwu_sa_result.csv'):
+    df = {'idx': [], 'label': [], 'pred': [], 'correct': []}
+    for i in range(10):
+        df[f'logits_{i}'] = []
+    df = pd.DataFrame(df)
+    df.to_csv(f'eval_kaiwu_sa_result.csv', index=False)
+
+df = pd.read_csv(f'eval_kaiwu_sa_result.csv')
+current_idx = df['idx'].max() if not df.empty else -1
+
 with torch.no_grad():
     for batch_idx, (data, target) in tqdm(
         enumerate(test_loader), leave=False, total=len(test_loader), desc="Testing"
     ):
+        if batch_idx <= current_idx:
+            continue
         data, target = data.to(device), target.to(device)
         output = model(data)
         
-        df['label'].extend(target.cpu().numpy().tolist())
-        df['pred'].extend(output.argmax(dim=1).cpu().numpy().tolist())
-        for i in range(10):
-            df[f'logits_{i}'].extend(output[:, i].cpu().numpy().tolist())
-        df['correct'].extend((output.argmax(dim=1) == target).cpu().numpy().tolist())
-
-df = pd.DataFrame(df)
-df.to_csv(f'eval_kaiwu_sa_result.csv', index=False)
+        temp = {
+            'idx': batch_idx,
+            'label': target.item(),
+            'pred': output.argmax(dim=1).item(),
+            'correct': (output.argmax(dim=1) == target).item()
+        }
+        temp.update({f'logits_{i}': output[0, i].item() for i in range(10)})
+        df = df.append(temp, ignore_index=True)
+        df.to_csv(f'eval_kaiwu_sa_result.csv', index=False)
 
 average_acc = df['correct'].mean()
 
