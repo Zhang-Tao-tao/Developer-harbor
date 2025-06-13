@@ -54,7 +54,7 @@ with torch.no_grad():
         df['correct'].extend((output.argmax(dim=1) == target).cpu().numpy().tolist())
 
 df = pd.DataFrame(df)
-df.to_csv(f'eval_admm_result.csv', index=False)
+df.to_csv(f'eval_result.csv', index=False)
 
 average_acc = df['correct'].mean()
 
