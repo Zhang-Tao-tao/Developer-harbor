@@ -8,6 +8,7 @@ from model import OptimAttn
 from icecream import ic
 from tqdm import tqdm
 import pandas as pd
+torch.manual_seed(1)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 ic(f"Using device: {device}")
@@ -32,14 +33,8 @@ model = OptimAttn(
     num_classes=10,
     dim=64,
     channels=1,
-    dropout=0.0,
-    emb_dropout=0.0
 ).to(device)
 model.load_state_dict(torch.load(f'./saved_model/model_{LOAD_MODEL_NUM_EPOCHS}.pth', map_location=device, weights_only=True), strict=True)
-
-# training loop
-step_log = {"train_loss": [], "train_acc": [], "test_loss": [], "test_acc": []}
-epoch_log = {"train_loss": [], "train_acc": [], "test_loss": [], "test_acc": []}
     
 model.eval()
 df = {'label': [], 'pred': [], 'correct': []}

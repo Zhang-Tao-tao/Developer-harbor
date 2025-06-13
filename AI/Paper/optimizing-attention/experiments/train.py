@@ -11,7 +11,7 @@ from tqdm import tqdm
 import os
 import shutil
 import json
-
+torch.manual_seed(1)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 ic(f"Using device: {device}")
@@ -29,10 +29,10 @@ test_dataset = torchvision.datasets.MNIST(
     root="./data", train=False, download=True, transform=transform
 )
 train_loader = DataLoader(
-    train_dataset, batch_size=BATCH_SIZE, shuffle=True
+    train_dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=0, pin_memory=True,
 )
 test_loader = DataLoader(
-    test_dataset, batch_size=BATCH_SIZE, shuffle=False
+    test_dataset, batch_size=BATCH_SIZE, shuffle=False, num_workers=0, pin_memory=True,
 )
 
 # define model
@@ -42,8 +42,6 @@ model = OptimAttn(
     num_classes=10,
     dim=64,
     channels=1,
-    dropout=0.0,
-    emb_dropout=0.0
 ).to(device)
 
 # define loss function and optimizer
@@ -60,11 +58,11 @@ def accuracy(output, target):
 # training loop
 step_log = {"train_loss": [], "train_acc": [], "test_loss": [], "test_acc": []}
 epoch_log = {"train_loss": [], "train_acc": [], "test_loss": [], "test_acc": []}
-for epoch in range(NUM_EPOCHS):
+for epoch in tqdm(range(NUM_EPOCHS), desc="Epochs", leave=True):
     model.train()
     temp_log = {"train_loss": [], "train_acc": []}
     for batch_idx, (data, target) in tqdm(
-        enumerate(train_loader), total=len(train_loader), desc="Training"
+        enumerate(train_loader), total=len(train_loader), desc="Training", leave=False
     ):
         
         data, target = data.to(device), target.to(device)
@@ -114,9 +112,10 @@ for epoch in range(NUM_EPOCHS):
     )
 
     # save model
-    if os.path.exists("./saved_model"):
-        shutil.rmtree("./saved_model")
-    os.makedirs("./saved_model", exist_ok=True)
+    if epoch==0:
+        if os.path.exists("./saved_model"):
+            shutil.rmtree("./saved_model")
+        os.makedirs("./saved_model", exist_ok=True)
     torch.save(model.state_dict(), f"./saved_model/model_{epoch}.pth")
 
 json.dump(epoch_log, open("./epoch_log.json", "w+"))

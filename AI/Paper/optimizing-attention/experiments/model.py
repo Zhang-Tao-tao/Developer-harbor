@@ -139,20 +139,18 @@ class Attention(nn.Module):
     def __init__(
         self,
         dim,
-        dropout=0.0,
         lambda_=0.1,
         solver='admm',
         args_solver: dict = {},
     ):
         super().__init__()
 
-        self.dropout = nn.Dropout(dropout)
         self.lambda_ = lambda_
         self.norm1 = nn.LayerNorm(dim)
         self.norm2 = nn.LayerNorm(dim)
         
         if solver == 'admm':
-            solver_args = {'eps_rel': 1e-6, 'eps_abs': 1e-6, 'verbose': False, 'reduce': 'max'}
+            solver_args = {'eps_rel': 1e-6, 'eps_abs': 1e-6, 'verbose': False, 'reduce': 'max'}#, 'max_iters': 1000}
             solver_args.update(args_solver)
             control = box_qp_control(
                 eps_rel=solver_args['eps_rel'], eps_abs=solver_args['eps_abs'], verbose=solver_args['verbose'], reduce=solver_args['reduce']
@@ -191,23 +189,18 @@ class Attention(nn.Module):
             torch.abs(sparse_coeffs).sum(dim=-1, keepdim=True) + 1e-10
         )
 
-        sparse_coeffs = self.dropout(sparse_coeffs)
-
         out = torch.matmul(sparse_coeffs, V)
 
         return out
 
 class MLP(nn.Module):
-    def __init__(self, dim, num_classes, hidden_dim, dropout=0.0):
+    def __init__(self, dim, num_classes):
 
         super().__init__()
         self.net = nn.Sequential(
             nn.LayerNorm(dim),
-            nn.Linear(dim, hidden_dim),
-            nn.GELU(),
-            nn.Dropout(dropout),
-            nn.Linear(hidden_dim, num_classes),
-            nn.Dropout(dropout),
+            nn.Linear(dim, num_classes),
+            nn.Softmax(dim=-1),
         )
 
     def forward(self, x):
@@ -222,8 +215,6 @@ class OptimAttn(nn.Module):
         num_classes,
         dim,
         channels=1,
-        dropout=0.0,
-        emb_dropout=0.0,
         solver='admm',
         args_solver: dict = {},
     ):
@@ -255,16 +246,14 @@ class OptimAttn(nn.Module):
         )
 
         self.pos_embedding = nn.Parameter(torch.randn(1, num_patches + 1, patch_dim))
-        self.dropout = nn.Dropout(emb_dropout)
 
         self.attention = Attention(
             dim,
-            dropout=0.0,
             lambda_=1,
             solver=solver,
             args_solver=args_solver,
         )
-        self.mlp = MLP(dim, num_classes, hidden_dim=64, dropout=0.0)
+        self.mlp = MLP(dim, num_classes)
     
     # @line_profiler.profile
     def forward(self, img):
@@ -272,7 +261,6 @@ class OptimAttn(nn.Module):
         b, n, _ = x.shape
 
         x += self.pos_embedding[:, : n]
-        x = self.dropout(x)
 
         Q = self.Wq(x)
         V = self.Wv(x)
@@ -292,8 +280,6 @@ if __name__ == "__main__":
         num_classes=10,
         dim=64,
         channels=1,
-        dropout=0.0,
-        emb_dropout=0.0,
         solver='kaiwu_sa',
         args_solver={
             'user_id': '69878024601862146',

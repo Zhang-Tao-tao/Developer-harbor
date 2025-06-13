@@ -8,6 +8,7 @@ from icecream import ic
 from tqdm import tqdm
 import pandas as pd
 import os
+torch.manual_seed(1)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 ic(f"Using device: {device}")
@@ -32,8 +33,6 @@ model = OptimAttn(
     num_classes=10,
     dim=64,
     channels=1,
-    dropout=0.0,
-    emb_dropout=0.0,
     solver='kaiwu_sa',
     args_solver={
         'user_id': '69878024601862146',
