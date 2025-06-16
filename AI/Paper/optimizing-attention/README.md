@@ -96,7 +96,7 @@ paper-demo/              # 项目模板目录
 
    <span style="color:blue">实验(LSC)</span>
 
-#### 模型训练
+#### optimizing-attention模型训练
 
 1. 实验配置:
 
@@ -131,22 +131,23 @@ paper-demo/              # 项目模板目录
 | num_classes    | 10               |
 | dim            | 64               |
 | channels       | 1                |
-| dropout        | 0.0              |
-| emb_dropout    | 0.0              |
+
 
 </div>
 
-2. 实验性能：
+2. 实验性能展示及与原始注意力模型对比结果：
+   
+   1.optimizing-attention模型训练的准确率和损失曲线图像如下：
 
+<img src="./images/model_acc_loss.png" width="600" height="200">
 
-模型训练的准确率和损失曲线图像如下：
+   2.original-attention模型训练的准确率和损失曲线图像如下：
 
-<img src="./images/model_loss_acc.png" width="1000" height="500">
-
+<img src="./images/original_attn_a_l.png" width="600" height="200">
 
 3. 结果分析:
 
-模型训练的结果表明optimizing-attention模型在MNIST数据集上表现良好，损失迅速下降，且准确率达到88.5%以上。
+原始注意力模型在MNIST数据集上表现优异，准确率达到92.1%。而模型训练的结果表明optimizing-attention模型在MNIST数据集上表现良好，损失迅速下降，且准确率仅达到82.7%。由此说明，optimizing-attention模型在图像分类准确率上没有优势。
 
 
 
