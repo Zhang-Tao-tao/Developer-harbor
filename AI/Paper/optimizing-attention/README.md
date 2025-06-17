@@ -69,11 +69,21 @@ paper-demo/              # 项目模板目录
 
 4. CIM光量子计算机推理实例
 
-   <span style="color:red">TODO</span>
+   ```bash
+   cd cim
+   python eval_0.py
+   tar -cvzf mat.tar.gz mat
+   ```
+
+   下载打包好的CSV矩阵文件，并上传到[QBoson云平台](https://platform.qboson.com/)使用相干光量子计算机进行计算。
+
+   运行结束后，得到打包好的报告文件和结果文件，可以使用rename.py文件进行重命名。
 
    ```bash
-   python cim.py --image_path xxx.png
+   python eval_1.py
+   cd ..
    ```
+
 
 ## 算法说明
 - 算法原理
