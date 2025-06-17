@@ -149,11 +149,11 @@ paper-demo/              # 项目模板目录
    
    a) optimizing-attention模型训练的准确率和损失曲线图像如下：
 
-   <img src="./images/model_acc_loss.png" width="600" height="200">
+   <img src="./images/model_acc_loss.png" width="1000" height="500">
 
    b) original-attention模型训练的准确率和损失曲线图像如下：
 
-   <img src="./images/original_attn_a_l.png" width="600" height="200">
+   <img src="./images/original_attn_a_l.png" width="1000" height="500">
 
 3. 结果分析:
 
@@ -166,7 +166,7 @@ paper-demo/              # 项目模板目录
 1. 仿真实验对比结果
    我们通过在optimizing-attention模型上进行admm求解器和kaiwu模拟退火求解器的仿真对比实验，根据不同label计算置信度，从而绘制了一幅箱线图，如下所示：
 
-   <img src="./images/boxplot_sa_vs_admm.png" width="600" height="200">
+   <img src="./images/boxplot_sa_vs_admm.png" width="1000" height="500">
 
 2. 结果分析：
    1. 对于同一个label，大多数情况下optimizing-attention模型在admm求解器与kaiwu模拟退火表现相当。仅在label为3时，admm求解器的label置信度结果存在更大的波动。这说明kaiwu模拟退火求解器在求解时更加稳定。
