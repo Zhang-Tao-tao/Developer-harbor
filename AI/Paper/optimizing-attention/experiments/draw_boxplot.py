@@ -23,7 +23,7 @@ for i, item in read_data('eval_admm_result.csv').items():
 for i, item in read_data('eval_kaiwu_sa_result.csv').items():
     results['Logit Group'].extend([f'label_{i}'] * len(item))
     results['Value'].extend(item)
-    results['source'].extend(['kaiwu Simulated Annealing'] * len(item))
+    results['source'].extend(['optimizing_attention kaiwu SA'] * len(item))
 
 sns.set_theme(style="whitegrid", palette="Set2")
 
@@ -39,7 +39,7 @@ box = sns.boxplot(
 )
 
 plt.title('Boxplot of sa vs admm (label0 - label9)', fontsize=16)
-plt.xlabel('Logit Groups', fontsize=14)
+plt.xlabel('Label', fontsize=14)
 plt.ylabel('Value', fontsize=14)
 
 plt.xticks(rotation=45, fontsize=12)
