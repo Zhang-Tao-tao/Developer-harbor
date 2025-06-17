@@ -204,7 +204,7 @@ paper-demo/              # 项目模板目录
 
 3. 接下来展示所有任务在CIM运行得到的求解向量并可视化optimizing-attention的稀疏能力。  ？？？？
 
-<img src="./images/OptimizingAttentionHeatmaps.png" width="1000" height="500">
+<img src="./images/OptimizingAttentionHeatmaps.png" width="1000" height="1000">
 
    
 #### 稀疏性分析
