@@ -10,6 +10,7 @@ from tqdm import tqdm
 import pandas as pd
 import os
 from matplotlib import pyplot as plt
+
 torch.manual_seed(1)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -38,29 +39,36 @@ model = OptimAttn(
     num_classes=10,
     dim=64,
     channels=1,
-    solver='kaiwu_sa',
+    solver="kaiwu_sa",
     args_solver={
-        'user_id': '69878024601862146',
-        'sdk_code': "0i4T6LY1XygfwN3MWa8Fjq27OaT0sq",
-        'is_check': False,
+        "user_id": "69878024601862146",
+        "sdk_code": "0i4T6LY1XygfwN3MWa8Fjq27OaT0sq",
+        "is_check": False,
     },
 ).to(device)
-model.load_state_dict(torch.load(f'../saved_model/model_{LOAD_MODEL_NUM_EPOCHS}.pth', map_location=device, weights_only=True), strict=True)
+model.load_state_dict(
+    torch.load(
+        f"../saved_model/model_{LOAD_MODEL_NUM_EPOCHS}.pth",
+        map_location=device,
+        weights_only=True,
+    ),
+    strict=True,
+)
 
-    
+
 model.eval()
 with torch.no_grad():
     data = img.to(device).unsqueeze(1)
     output = model(data)
-    
+
 prediction_label = output.argmax(dim=1).item()
 df = {
-    'idx': IMG_IDX,
-    'label': label,
-    'prediction': prediction_label,
-    'correct': label == prediction_label,
+    "idx": IMG_IDX,
+    "label": label,
+    "prediction": prediction_label,
+    "correct": label == prediction_label,
 }
 for i in range(10):
-    df[f'logit_{i}'] = output[0, i].item()
+    df[f"logit_{i}"] = output[0, i].item()
 df = pd.DataFrame([df])
-df.to_csv(f'./eval_cim_result_img{IMG_IDX}.csv', index=False)
+df.to_csv(f"./eval_cim_result_img{IMG_IDX}.csv", index=False)

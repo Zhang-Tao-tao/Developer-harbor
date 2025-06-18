@@ -11,6 +11,7 @@ from tqdm import tqdm
 import os
 import shutil
 import json
+
 torch.manual_seed(1)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -29,10 +30,18 @@ test_dataset = torchvision.datasets.MNIST(
     root="./data", train=False, download=True, transform=transform
 )
 train_loader = DataLoader(
-    train_dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=0, pin_memory=True,
+    train_dataset,
+    batch_size=BATCH_SIZE,
+    shuffle=True,
+    num_workers=0,
+    pin_memory=True,
 )
 test_loader = DataLoader(
-    test_dataset, batch_size=BATCH_SIZE, shuffle=False, num_workers=0, pin_memory=True,
+    test_dataset,
+    batch_size=BATCH_SIZE,
+    shuffle=False,
+    num_workers=0,
+    pin_memory=True,
 )
 
 # define model
@@ -64,9 +73,9 @@ for epoch in tqdm(range(NUM_EPOCHS), desc="Epochs", leave=True):
     for batch_idx, (data, target) in tqdm(
         enumerate(train_loader), total=len(train_loader), desc="Training", leave=False
     ):
-        
+
         data, target = data.to(device), target.to(device)
-        
+
         optimizer.zero_grad()
         output = model(data)
         loss = loss_fn(output, target)
@@ -112,7 +121,7 @@ for epoch in tqdm(range(NUM_EPOCHS), desc="Epochs", leave=True):
     )
 
     # save model
-    if epoch==0:
+    if epoch == 0:
         if os.path.exists("./saved_model"):
             shutil.rmtree("./saved_model")
         os.makedirs("./saved_model", exist_ok=True)

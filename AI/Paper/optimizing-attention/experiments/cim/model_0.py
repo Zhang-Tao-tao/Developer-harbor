@@ -14,18 +14,19 @@ import numpy as np
 from tqdm import tqdm
 import pandas as pd
 
+
 def pair(t):
     return t if isinstance(t, tuple) else (t, t)
 
 
 class SASolver:
     def __init__(self, args_solver: dict):
-        assert 'user_id' in args_solver, "args_solver must contain 'user_id'"
-        assert 'sdk_code' in args_solver, "args_solver must contain 'sdk_code'"
-        
+        assert "user_id" in args_solver, "args_solver must contain 'user_id'"
+        assert "sdk_code" in args_solver, "args_solver must contain 'sdk_code'"
+
         solver_args = {
-            'num_process': 1,
-            'is_check': True,
+            "num_process": 1,
+            "is_check": True,
             "sa_num_process": 1,
             "initial_temperature": 100,
             "alpha": 0.99,
@@ -37,12 +38,12 @@ class SASolver:
         }
         solver_args.update(args_solver)
         self.args_solver = solver_args
-        
-        kw.license.init(self.args_solver['user_id'], self.args_solver['sdk_code'])
+
+        kw.license.init(self.args_solver["user_id"], self.args_solver["sdk_code"])
 
     def forward(self, Q, p, A, b, lb, ub):
         p = p.squeeze(-1)
-        if self.args_solver['is_check']:
+        if self.args_solver["is_check"]:
             assert Q.shape[-1] == Q.shape[-2], "Q must be a square matrix"
             assert p.shape[-1] == Q.shape[-1], "p must match the last dimension of Q"
             assert A is None, "no constrain support"
@@ -55,7 +56,7 @@ class SASolver:
         batch_size = Q.shape[0]
         print(batch_size)
         result = []
-        for b in tqdm(range(batch_size), desc='Solving...', leave=False):
+        for b in tqdm(range(batch_size), desc="Solving...", leave=False):
             result.append(self._solve_step(Q[b, :, :], p[b, :], b))
         exit(1)
         results = np.stack(result, axis=0)
@@ -64,16 +65,16 @@ class SASolver:
 
     def _solve_step(self, Q, p, idx):
         n = Q.shape[0]
-        
+
         qubo_model = kw.qubo.QuboModel()
-        x = kw.qubo.ndarray((n, 1), 'x', kw.qubo.Binary)
-        
+        x = kw.qubo.ndarray((n, 1), "x", kw.qubo.Binary)
+
         objective = (0.5 * x.T @ Q @ x + x.T @ p).item()
         qubo_model.set_objective(objective)
-        
+
         qubo_mat = qubo_model.get_qubo_matrix(bit_width=8)
-        pd.DataFrame(qubo_mat).to_csv(f'./mat/{idx}.csv', index=False, header=False)
-        
+        pd.DataFrame(qubo_mat).to_csv(f"./mat/{idx}.csv", index=False, header=False)
+
         # solve
         # worker = kw.solver.SimpleSolver(
         #     kw.classical.SimulatedAnnealingOptimizer(
@@ -89,14 +90,14 @@ class SASolver:
         # sol_dict, _ = worker.solve_qubo(qubo_model)
         # x = kw.qubo.get_array_val(x, sol_dict)
         # return x
-        
-        
+
+
 class Attention(nn.Module):
     def __init__(
         self,
         dim,
         lambda_=0.1,
-        solver='admm',
+        solver="admm",
         args_solver: dict = {},
     ):
         super().__init__()
@@ -104,15 +105,23 @@ class Attention(nn.Module):
         self.lambda_ = lambda_
         self.norm1 = nn.LayerNorm(dim)
         self.norm2 = nn.LayerNorm(dim)
-        
-        if solver == 'admm':
-            solver_args = {'eps_rel': 1e-6, 'eps_abs': 1e-6, 'verbose': False, 'reduce': 'max'}#, 'max_iters': 1000}
+
+        if solver == "admm":
+            solver_args = {
+                "eps_rel": 1e-6,
+                "eps_abs": 1e-6,
+                "verbose": False,
+                "reduce": "max",
+            }  # , 'max_iters': 1000}
             solver_args.update(args_solver)
             control = box_qp_control(
-                eps_rel=solver_args['eps_rel'], eps_abs=solver_args['eps_abs'], verbose=solver_args['verbose'], reduce=solver_args['reduce']
+                eps_rel=solver_args["eps_rel"],
+                eps_abs=solver_args["eps_abs"],
+                verbose=solver_args["verbose"],
+                reduce=solver_args["reduce"],
             )
             self.solver = SolveBoxQP(control=control)
-        elif solver == 'kaiwu_sa':
+        elif solver == "kaiwu_sa":
             self.solver = SASolver(args_solver)
         else:
             raise ValueError(f"Unsupported solver: {solver}")
@@ -122,10 +131,10 @@ class Attention(nn.Module):
         _, m, _ = V.shape
         V = V / m
 
-        Q1 = 2 * torch.matmul(V, V.transpose(1, 2))  
-        P = -2 * torch.einsum('bmd,bnd->bnm', V, Q).unsqueeze(-1)  
+        Q1 = 2 * torch.matmul(V, V.transpose(1, 2))
+        P = -2 * torch.einsum("bmd,bnd->bnm", V, Q).unsqueeze(-1)
         lambda_term = self.lambda_ * torch.ones(b, 1, m, 1, device=P.device) / m
-        P = P + lambda_term  
+        P = P + lambda_term
 
         Q1_stacked = Q1.unsqueeze(1).expand(-1, n, -1, -1).reshape(b * n, m, m)
         P_stacked = P.reshape(b * n, m, 1)
@@ -134,12 +143,14 @@ class Attention(nn.Module):
         lb_stacked = lb.unsqueeze(1).expand(-1, n, -1, -1).reshape(b * n, m, 1)
         ub_stacked = ub.unsqueeze(1).expand(-1, n, -1, -1).reshape(b * n, m, 1)
 
-        x_stacked = self.solver.forward(Q1_stacked, P_stacked, None, None, lb_stacked, ub_stacked)
+        x_stacked = self.solver.forward(
+            Q1_stacked, P_stacked, None, None, lb_stacked, ub_stacked
+        )
 
         x = x_stacked.reshape(b, n, m, 1)
 
         x = torch.where(x > 0.5, torch.ones_like(x), torch.zeros_like(x))
-        sparse_coeffs = x.squeeze(-1)  
+        sparse_coeffs = x.squeeze(-1)
 
         sparse_coeffs = sparse_coeffs / (
             torch.abs(sparse_coeffs).sum(dim=-1, keepdim=True) + 1e-10
@@ -148,6 +159,7 @@ class Attention(nn.Module):
         out = torch.matmul(sparse_coeffs, V)
 
         return out
+
 
 class MLP(nn.Module):
     def __init__(self, dim, num_classes):
@@ -171,7 +183,7 @@ class OptimAttn(nn.Module):
         num_classes,
         dim,
         channels=1,
-        solver='admm',
+        solver="admm",
         args_solver: dict = {},
     ):
         super().__init__()
@@ -210,13 +222,13 @@ class OptimAttn(nn.Module):
             args_solver=args_solver,
         )
         self.mlp = MLP(dim, num_classes)
-    
+
     # @line_profiler.profile
     def forward(self, img):
         x = self.to_patch_embedding(img)
         b, n, _ = x.shape
 
-        x += self.pos_embedding[:, : n]
+        x += self.pos_embedding[:, :n]
 
         Q = self.Wq(x)
         V = self.Wv(x)
@@ -229,19 +241,19 @@ class OptimAttn(nn.Module):
 
 
 if __name__ == "__main__":
-    torch.set_printoptions(edgeitems=1000) 
+    torch.set_printoptions(edgeitems=1000)
     model = OptimAttn(
         image_size=(28, 28),
         patch_size=(4, 4),
         num_classes=10,
         dim=64,
         channels=1,
-        solver='kaiwu_sa',
+        solver="kaiwu_sa",
         args_solver={
-            'user_id': '69878024601862146',
-            'sdk_code': "0i4T6LY1XygfwN3MWa8Fjq27OaT0sq",
+            "user_id": "69878024601862146",
+            "sdk_code": "0i4T6LY1XygfwN3MWa8Fjq27OaT0sq",
         },
     ).to("cuda")
-    x = torch.randn(128, 1, 28, 28).to("cuda")  
+    x = torch.randn(128, 1, 28, 28).to("cuda")
     out = model(x)
-    print(out.shape)  
+    print(out.shape)

@@ -6,21 +6,26 @@ from einops.layers.torch import Rearrange
 
 from icecream import ic
 
+
 def pair(t):
     return t if isinstance(t, tuple) else (t, t)
+
 
 class Attention(nn.Module):
     def __init__(self):
         super().__init__()
-    
+
     def forward(self, Q, K, V):
         # Compute attention scores
-        attn_scores = torch.einsum('bnd,bmd->bnm', Q, K)
+        attn_scores = torch.einsum("bnd,bmd->bnm", Q, K)
         attn_scores = attn_scores / (Q.shape[-1] ** 0.5)  # Scale scores
-        attn_weights = F.softmax(attn_scores, dim=-1)  # Apply softmax to get attention weights
+        attn_weights = F.softmax(
+            attn_scores, dim=-1
+        )  # Apply softmax to get attention weights
         # Compute the output as a weighted sum of values
-        out = torch.einsum('bnm,bmd->bnd', attn_weights, V)
+        out = torch.einsum("bnm,bmd->bnd", attn_weights, V)
         return out
+
 
 class MLP(nn.Module):
     def __init__(self, dim, num_classes):
@@ -71,7 +76,7 @@ class Net(nn.Module):
             nn.Linear(patch_dim, dim),
             nn.LayerNorm(dim),
         )
-        
+
         self.Wk = nn.Sequential(
             nn.Linear(patch_dim, dim),
             nn.LayerNorm(dim),
@@ -81,13 +86,13 @@ class Net(nn.Module):
 
         self.attention = Attention()
         self.mlp = MLP(dim, num_classes)
-    
+
     # @line_profiler.profile
     def forward(self, img):
         x = self.to_patch_embedding(img)
         b, n, _ = x.shape
 
-        x += self.pos_embedding[:, : n]
+        x += self.pos_embedding[:, :n]
 
         Q = self.Wq(x)
         V = self.Wv(x)
@@ -101,7 +106,7 @@ class Net(nn.Module):
 
 
 if __name__ == "__main__":
-    torch.set_printoptions(edgeitems=1000) 
+    torch.set_printoptions(edgeitems=1000)
     model = Net(
         image_size=(28, 28),
         patch_size=(4, 4),
@@ -109,6 +114,6 @@ if __name__ == "__main__":
         dim=64,
         channels=1,
     ).to("cuda")
-    x = torch.randn(128, 1, 28, 28).to("cuda")  
+    x = torch.randn(128, 1, 28, 28).to("cuda")
     out = model(x)
-    print(out.shape)  
+    print(out.shape)
