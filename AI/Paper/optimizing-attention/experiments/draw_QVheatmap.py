@@ -23,7 +23,7 @@ for idx0 in range(7):
     for idx1 in range(7):
         ax = fig.add_subplot(gs[idx0, idx1])
         ax.imshow(
-            all_x[idx0, idx1], 
+            np.flipud(all_x[idx0, idx1]), 
             cmap=ListedColormap(['#241942','#e49f1b']), 
             interpolation='nearest'
         )
