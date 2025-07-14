@@ -377,7 +377,7 @@ A: 回答部分一：这种做法是数学上合理且标准的表示。
 
 
 $$
-\lambda \| x_i \|_1 = \lambda \sum_j |x_{ij}| = \lambda x_i^T \cdot \mathbf{1}^{m \times 1}
+\lambda \| x_i \|_1 = \lambda \sum_j |x_{ij}| = \lambda x_i^T \cdot 1^{m \times 1}
 $$
 
 
