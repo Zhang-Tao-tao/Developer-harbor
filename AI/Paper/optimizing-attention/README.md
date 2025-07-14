@@ -376,9 +376,9 @@ A: 回答部分一：这种做法是数学上合理且标准的表示。
 正则项公式：
 
 
-$$
+```math
 \lambda \| x_i \|_1 = \lambda \sum_j |x_{ij}| = \lambda x_i^T \cdot 1^{m \times 1}
-$$
+```
 
 
 其中 $\mathbf{1}$ 是全 1 向量，与 $x_i$ 同维度。
