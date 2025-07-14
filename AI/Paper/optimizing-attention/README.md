@@ -376,9 +376,9 @@ $$
    正则项公式：
 
 
-   ```math
+   $$
    \lambda \| x_i \|_1 = \lambda \sum_j |x_{ij}| = \lambda x_i^T \cdot \mathbf{1}^{m \times 1}
-   ```
+   $$
 
 
    其中 $\mathbf{1}$ 是全 1 向量，与 $x_i$ 同维度。
@@ -396,9 +396,9 @@ $$
    如果通过不等式约束来实现，即引入辅助变量 $t_i$， 是优化中经典的做法，将不可微的L1范数问题转化为线性目标+线性约束：
 
 
-   ```math
-   \min_{x,t} \| q-x^TV \|^2_2 + \lambda \sum_j t_j, \quad s.t. \quad -x_j \le t_j \le x_j
-   ```
+$$
+\min_{x,t} \| q-x^TV \|^2_2 + \lambda \sum_j t_j, \quad s.t. \quad -x_j \le t_j \le x_j
+$$
 
 
    优点：
