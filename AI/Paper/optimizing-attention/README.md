@@ -256,9 +256,9 @@ $$
 
 3. 结果分析:
 
-   原始注意力模型在MNIST数据集上表现优异，准确率达到92.1%。而模型训练的结果表明optimizing-attention模型在MNIST数据集上表现良好，损失迅速下降，且准确率仅达到82.7%。由此说明，optimizing-attention模型在图像分类准确率上没有优势。
+   原始注意力模型在MNIST数据集上表现优异，准确率达到92.1%。而模型训练的结果表明optimizing-attention模型在MNIST数据集上表现良好，损失迅速下降，且准确率仅达到82.7%。由此说明，optimizing-attention模型在图像分类准确率上损失较小。
 
-
+   基于optimizing attention机制的连续权重版本准确率额达到89.8%，与原版注意力模型差异较小。考虑到比特数限制，optimizing attention经过二值化QUBO处理后，准确率降低了7%左右，差异较小。
 
 
 ### 仿真实验对比分析
