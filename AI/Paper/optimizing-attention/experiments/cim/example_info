@@ -1,0 +1,2 @@
+idx	label	pred	correct	logits_0	logits_1	logits_2	logits_3	logits_4	logits_5	logits_6	logits_7	logits_8	logits_9
+22	6	6	TRUE	6.59E-06	1.60E-08	1.30E-14	7.68E-16	0.140672237	1.45E-11	0.859306812	1.07E-05	1.67E-07	3.48E-06
