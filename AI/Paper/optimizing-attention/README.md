@@ -258,8 +258,15 @@ $$
 
    原始注意力模型在MNIST数据集上表现优异，准确率达到92.1%。而模型训练的结果表明optimizing-attention模型在MNIST数据集上表现良好，损失迅速下降，且准确率仅达到82.7%。由此说明，optimizing-attention模型在图像分类准确率上损失较小。
 
-   基于optimizing attention机制的连续权重版本准确率额达到89.8%，与原版注意力模型差异较小。考虑到比特数限制，optimizing attention经过二值化QUBO处理后，准确率降低了7%左右，差异较小。
+### Optim-Attn 连续实数权重及离散化对比
 
+<img src="./images/optim-attn-continous.png" width="1000" height="500">
+
+基于optimizing attention机制的连续权重版本准确率额达到89.8%，与原版注意力模型92.1%差异较小。考虑到其对于对于K的省略，造成了一部分的参数量下降，因此该策略是合理的。
+
+对于将连续实数权重的optim-attn离散化为QUBO模型，考虑到比特数限制，进行二值化处理，得到的实验准确率为82.7%。离散版本的optim-attn相较于连续版本的准确率降低了7%左右，差异较小。
+
+因此可以判断出Optim-Attn的连续实数版本能够具备一定替代Attention的能力，并且离散化后适宜于量子退火的版本具备一定的可适用性。
 
 ### 仿真实验对比分析
 1. 仿真实验对比结果
