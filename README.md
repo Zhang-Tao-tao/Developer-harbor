@@ -14,6 +14,9 @@
 ├── Biomedical Research/   # 生物制药研究相关项目
 │   ├── Paper/            # 论文复现项目
 │   └── Competition/      # 竞赛项目
+├── Communication/         # 通信相关项目
+│   ├── Paper/            # 论文复现项目
+│   └── Competition/      # 竞赛项目
 ├── templates/            # 项目模板目录
 │   └── paper-demo/      # 论文复现项目模板
 ├── LICENSE
@@ -22,7 +25,7 @@
 
 ## 🎯 项目介绍
 
-Developer Harbor 是量子奇点计划的官方项目成果展示平台。这里汇集了来自开发者社区的优秀项目代码，展示了在量子计算领域的创新成果。
+Developer Harbor 是量子奇点计划的官方项目成果展示平台，这里汇集了来自开发者社区的优秀项目代码，展示了在量子计算领域的创新成果。
 
 ## 🚀 参与贡献
 
