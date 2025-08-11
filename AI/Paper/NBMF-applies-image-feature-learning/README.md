@@ -50,66 +50,65 @@ python main.py
 - 算法目标：
 
   ​	算法的核心在于高效求解子问题：
-  $$
-  W^{k+1}=arg \min_{W \ge 0}\|V-XH^k\|_F
-  $$
+
+$$W^{k+1}=\text{argmin}_{W \ge 0}\|V-XH^k\|_F$$
+  
   ​	该子问题是带有边界约束的问题，需要采用投影梯度法来解决。将目标函数重写为向量子问题形式：
-  $$
-  f(H) = \frac{1}{2}\|V-WH\|_F^2 = \frac{1}{2}H_i^T\begin{bmatrix}
-   W^TW & & \\
-   & \ddots & \\
-   & & W^TW
-  \end{bmatrix}H_i + \text{$H$'s linear terms}
-  $$
+
+$$f(H) = \frac{1}{2}\|V-WH\|_F^2 = \frac{1}{2}H_i^T\begin{bmatrix} W^TW & & \\
+& \ddots & \\
+& & W^TW \end{bmatrix}H_i + \text{$H$'s linear terms}$$
+
   
 
 - 算法原理：
 
   ​	每个子问题都需要一个迭代过程，这些迭代被称为子迭代。在使用子迭代解决子问题时，必须在每个子迭代中保持梯度：
-  $$
-  \nabla f(H) = W^T(WH-V)
-  $$
-  ​	常数矩阵$W^TW$和$W^TV$可以分别在$O(nr²)$和$O(nmr)$操作时间内计算，然后进行子迭代。每次子迭代的主要计算任务是找到一个步长$\alpha$，使得**充分下降条件**：
-  $$
-  f(x^{k+1}) - f(x^{k}) \le \sigma \nabla f(x^{k})(x^{k+1}-x^{k})
-  $$
-  ​	得到满足。假设$H$为当前的解，则新解为：
-  $$
-  \hat H \equiv P[H - \alpha\nabla f(H)]
-  $$
-  ​	其中（$u_i$和$l_i$是上下界）：
-  $$
-  P[x_i]=\left\{\begin{matrix}
-   x_i & \text{if $l_i \le x_i\le u_i$,}\\
-   u_i & \text{if $x_i\ge u_i$,}\\
-   l_i & \text{if $x_i\le l_i$,}
-  \end{matrix}\right.
-  $$
-  ​	为了验证上面新解是否满足充分下降条件，计算需要$O(nmr)$次运算。若对$\hat H$进行$t$次试验，计算成本$O(tnmr)$将变得难以承受。为此，针对二次函数$f(x)$及任意向量$d$，提出以下策略以降低计算成本：
-  $$
-  f(x+d) = f(x) + \nabla f(x)^Td + d^T \nabla^2 f(x)d
-  $$
-  ​	因此，对于连续两次迭代$x^{k}$和$x^{k+1}$，充分下降条件可表示为：
-  $$
-  (1-\sigma) \nabla f(x^{k})^T(x^{k+1}-x^{k})+\frac{1}{2}(x^{k+1}-x^{k})^T \nabla^2 f(x^{k}) (x^{k+1}-x^{k}) \le 0
-  $$
-  ​	现在，根据子问题形式目标函数定义的$f(H)$是二次函数，因此充分下降条件变为：
-  $$
-  (1-\sigma) \left \langle \nabla f(H), \hat H - H \right \rangle + \frac{1}{2} \left \langle \hat H - H, (W^TW)(\hat H - H) \right \rangle \le 0
-  $$
-  ​	其中$\left \langle \cdot , \cdot \right \rangle$表示两个矩阵的分量积之和。
+
+$$\nabla f(H) = W^T(WH-V)$$
+
+  ​	常数矩阵 $W^TW$ 和 $W^TV$ 可以分别在 $O(nr²)$ 和 $O(nmr)$ 操作时间内计算，然后进行子迭代。每次子迭代的主要计算任务是找到一个步长 $\alpha$ ，使得**充分下降条件**：
+
+$$f(x^{k+1}) - f(x^{k}) \le \sigma \nabla f(x^{k})(x^{k+1}-x^{k})$$
+
+  ​	得到满足。假设 $H$ 为当前的解，则新解为：
+
+$$\hat H \equiv P[H - \alpha\nabla f(H)]$$
+
+  ​	其中（ $u_i$ 和 $l_i$ 是上下界）：
+
+$$P[x_i] = 
+\begin{cases} 
+x_i & \text{if } l_i \le x_i \le u_i, \\ 
+u_i & \text{if } x_i \ge u_i, \\ 
+l_i & \text{if } x_i \le l_i,
+\end{cases}$$
+
+  ​	为了验证上面新解是否满足充分下降条件，计算需要 $O(nmr)$ 次运算。若对 $\hat H$ 进行 $t$ 次试验，计算成本 $O(tnmr)$ 将变得难以承受。为此，针对二次函数 $f(x)$ 及任意向量 $d$ ，提出以下策略以降低计算成本：
+
+$$f(x+d) = f(x) + \nabla f(x)^Td + d^T \nabla^2 f(x)d$$
+
+  ​	因此，对于连续两次迭代 $x^{k}$ 和 $x^{k+1}$ ，充分下降条件可表示为：
+
+$$(1-\sigma) \nabla f(x^{k})^T(x^{k+1}-x^{k})+\frac{1}{2}(x^{k+1}-x^{k})^T \nabla^2 f(x^{k}) (x^{k+1}-x^{k}) \le 0$$
+
+  ​	现在，根据子问题形式目标函数定义的 $f(H)$ 是二次函数，因此充分下降条件变为：
+
+$$(1-\sigma) \left \langle \nabla f(H), \hat H - H \right \rangle + \frac{1}{2} \left \langle \hat H - H, (W^TW)(\hat H - H) \right \rangle \le 0$$
+
+  ​	其中 $\left \langle \cdot , \cdot \right \rangle$ 表示两个矩阵的分量积之和。
 
 - 实现细节
 
-  ​	实际过程中，对于子问题内层循环，最多尝试 20 次检查充分下降条件，每次根据充分下降条件判断是否需要减小步长，如果不满足则减小步长为原来的$\beta$份，否则将步长增大为原来的$\frac{1}{\beta}$ 倍，更新$H$并退出内层循环。
+  ​	实际过程中，对于子问题内层循环，最多尝试 20 次检查充分下降条件，每次根据充分下降条件判断是否需要减小步长，如果不满足则减小步长为原来的 $\beta$ 份，否则将步长增大为原来的 $\frac{1}{\beta}$ 倍，更新 $H$ 并退出内层循环。
 
 - 关键步骤
 
-  ​	**停止条件的判断**既需要基于运行时间，又需要基于容差。如果投影梯度范数与初始梯度范数的比例小于容差，则停止迭代。如果交替非负最小二乘子问题函数只迭代了一次，说明容差过大导致迭代不充分，则将$W$梯度的容差缩小为原来的 0.1 倍。
+  ​	**停止条件的判断**既需要基于运行时间，又需要基于容差。如果投影梯度范数与初始梯度范数的比例小于容差，则停止迭代。如果交替非负最小二乘子问题函数只迭代了一次，说明容差过大导致迭代不充分，则将 $W$ 梯度的容差缩小为原来的 0.1 倍。
 
 - 性能分析
 
-  ​	上述公式中的主要操作是矩阵乘法$(W^TW) \cdot (\hat H − H)$，其时间复杂度为$O(mr²)$。因此，检查的成本从$O(tnmr)$显著降低到$O(tmr²)$。考虑到计算$W^TV$的初始成本为$O(nmr)$，则解决子问题的时间复杂度为$O(nmr) + \text{sub-iterations} \times O(tmr^2)$，其中$t$表示每次子迭代的对充分下降条件的平均检查次数。
+  ​	上述公式中的主要操作是矩阵乘法 $(W^TW) \cdot (\hat H − H)$ ，其时间复杂度为 $O(mr²)$ 。因此，检查的成本从 $O(tnmr)$ 显著降低到 $O(tmr²)$ 。考虑到计算 $W^TV$ 的初始成本为 $O(nmr)$ ，则解决子问题的时间复杂度为 $O(nmr) + \text{sub-iterations} \times O(tmr^2)$ ，其中 $t$ 表示每次子迭代的对充分下降条件的平均检查次数。
 
 ## 作者信息
 - 作者姓名：周澍锦
