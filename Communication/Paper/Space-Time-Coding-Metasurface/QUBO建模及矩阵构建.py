@@ -146,6 +146,7 @@ with open('qubo_matrix_complete.csv', 'w', newline='') as f:
     for row in qubo_scaled:
         writer.writerow(row)
 
+
 end_time = time.time()
 total_time = end_time - start_time
 minutes = int(total_time // 60)

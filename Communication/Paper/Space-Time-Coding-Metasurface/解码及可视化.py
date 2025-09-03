@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator
 
-matplotlib.rcParams["font.family"] = ["SimHei", "WenQuanYi Micro Hei", "Heiti TC"]
+matplotlib.rcParams["font.family"] = ["SimHei"]
 matplotlib.rcParams['axes.unicode_minus'] = False
 
 # --------------------------参数设置（与建模代码一致）--------------------------
