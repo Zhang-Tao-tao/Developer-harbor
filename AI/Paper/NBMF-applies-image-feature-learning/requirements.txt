@@ -1,5 +1,0 @@
-kaiwu>=1.1.2
-numpy>=1.24.4
-matplotlib>=3.7.3
-scikit-learn>=1.3.2
-gurobipy>=11.0.3
