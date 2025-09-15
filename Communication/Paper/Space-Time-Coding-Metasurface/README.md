@@ -42,7 +42,7 @@
 
 空时编码超表面的远场散射功率是衡量其性能的核心物理量，需考虑“空间-时间-谐波”三维因素，
 
-第h次谐波（对应频率*f**c* + *h**f*0，*f**c*为中心频率，*f*0 = 1/*T*0为时间调制频率）的远场散射功率公式为：
+第h次谐波（对应频率*fc* + *hf*0，*fc*为中心频率，*f*0 = 1/*T*0为时间调制频率）的远场散射功率公式为：
 
 $${P}\_{h}(\theta,\varphi) = \sum\_{p,q}^{}\Gamma\_{p} \cdot \Gamma\_{q}^{\ast} \cdot A\_{pq}\$1)\$$
 
@@ -62,7 +62,7 @@ $A\_{pq}^{h} = \frac{\|E(\theta,\varphi)\|^{2}}{L^{2}}{sinc}^{2}\left( \frac{\pi
 
 • 单个超原子的远场方向分布图(原论文假设为余弦分布)：*E*(*θ*, *φ*) = *c**o**s**θ*
 
-• 谐波 *s**i**n**c* 因子 ${sinc}^{2}\left( \frac{\pi h}{L} \right)$ ：时间调制产生的谐波功率衰减因子，L越大（时间槽越多），非目标谐波衰减越显著，*h* = 0（中心频率）时*s**i**n**c*<sup>2</sup>(0) = 1（功率最大）；*h* = ±*L*时为 0（谐波抑制）
+• 谐波 *s**i**nc* 因子 ${sinc}^{2}\left( \frac{\pi h}{L} \right)$ ：时间调制产生的谐波功率衰减因子，L越大（时间槽越多），非目标谐波衰减越显著，*h* = 0（中心频率）时*s**i**n**c*<sup>2</sup>(0) = 1（功率最大）；*h* = ±*L*时为 0（谐波抑制）
 
 • 空间波数分量*k*<sub>*x*</sub>, *k*<sub>*y*</sub>：入射波在*x*/*y*方向的波数分量，与波束指向*θ*<sub>0</sub>, *φ*<sub>0</sub>直接相关
 
@@ -86,11 +86,11 @@ $A\_{pq}^{h} = \frac{\|E(\theta,\varphi)\|^{2}}{L^{2}}{sinc}^{2}\left( \frac{\pi
 
                                    *H* = −*P*<sub>*总*</sub> = −(*w*<sub>*m**a**i**n*</sub> ⋅ *P*<sub>*h*</sub>(*θ*<sub>0</sub>, *φ*<sub>0</sub>) + *w*<sub>*s**i**d**e*</sub> ⋅ *P*<sub>*s**i**d**e*</sub>)      (3)
 
-• *w*<sub>*m**a**i**n*</sub> \> 0：主波束增强权重，取值需大于 0 以强化主目标（实验中取 10.0，确保主波束功率优先）；
+• *w*<sub>*m**a**in*</sub> \> 0：主波束增强权重，取值需大于 0 以强化主目标（实验中取 10.0，确保主波束功率优先）；
 
-• *w*<sub>*s**i**d**e*</sub> \< 0 ：旁瓣抑制权重，负值表示对旁瓣功率的 “惩罚”（实验中取 − 1.0，避免过度惩罚导致主瓣功率下降）；
+• *w*<sub>*s**i**de*</sub> \< 0 ：旁瓣抑制权重，负值表示对旁瓣功率的 “惩罚”（实验中取 − 1.0，避免过度惩罚导致主瓣功率下降）；
 
-• *P*<sub>*s**i**d**e*</sub>：旁瓣区域平均功率，通过离散角度积分近似计算 —— 将旁瓣区域*θ* ∈ $$−*π*/2, *π*/2$$ ∖ $$*θ*<sub>0</sub> − *Δ*, *θ*<sub>0</sub> + *Δ*$$ 离散为K个角度点（实验中*K* = 20）$P\_{side} = \frac{1}{K}\sum\_{k = 1}^{K}P\_{h}(\theta\_{k},\varphi\_{0})$
+• *P*<sub>*s**i**de*</sub>：旁瓣区域平均功率，通过离散角度积分近似计算 —— 将旁瓣区域*θ* ∈ $$−*π*/2, *π*/2$$ ∖ $$*θ*<sub>0</sub> − *Δ*, *θ*<sub>0</sub> + *Δ*$$ 离散为K个角度点（实验中*K* = 20）$P_{side} = \frac{1}{K}\sum_{k = 1}^{K}P_{h}(\theta_{k},\varphi_{0})$
 
 ### 二、1 比特编码 QUBO 模型推导​
 
@@ -98,7 +98,7 @@ $A\_{pq}^{h} = \frac{\|E(\theta,\varphi)\|^{2}}{L^{2}}{sinc}^{2}\left( \frac{\pi
 
 1 比特编码下，超原子的反射系数（纯相位）直接由二进制自旋变量表示，即：
 
-*Γ*<sub>*p*</sub> = *s*<sub>*p*</sub>  (*s*<sub>*p*</sub> ∈ {−1, 1})                                                  (4)
+*Γ*<sub>*p*</sub> = *s*<sub>*p*</sub>  (*s*<sub>*p*</sub> ∈ {−1, 1})                                       (4)
 
 物理意义：*s*<sub>*p*</sub> = 1对应一种相位状态（如 0），*s*<sub>*p*</sub> = −1对应另一种相位状态（如*π*），通过自旋变量的二进制特性描述超原子相位的离散性，同时满足\|*Γ*<sub>*p*</sub>\| = 1的纯相位约束。
 
@@ -106,21 +106,21 @@ $A\_{pq}^{h} = \frac{\|E(\theta,\varphi)\|^{2}}{L^{2}}{sinc}^{2}\left( \frac{\pi
 
 将式 (4) 代入式 (3) ，哈密顿量简化为：
 
-$$\H = - \sum\_{p,q}^{}J\_{pq}s\_{p}s\_{q}\$5)\$$
+$$H = - \sum\_{p,q}^{}J\_{pq}s\_{p}s\_{q}\(5)\$$
 
-其中*J*<sub>*p**q*</sub>为自旋耦合系数，整合主波束、旁瓣与谐波的权重信息：
+其中*J*<sub>*pq*</sub>为自旋耦合系数，整合主波束、旁瓣与谐波的权重信息：
 
-                                    *J*<sub>*p**q*</sub> = *w*<sub>*m**a**i**n*</sub> ⋅ *A*<sub>*p**q*</sub>(*θ*<sub>0</sub>, *φ*<sub>0</sub>) + *w*<sub>*s**i**d**e*</sub> ⋅ *A*<sub>*p**q*</sub><sup>*s**i**d**e*</sup>                                         (6)
+                                    *J*<sub>*pq*</sub> = *w*<sub>*m**a**in*</sub> ⋅ *A*<sub>*pq*</sub>(*θ*<sub>0</sub>, *φ*<sub>0</sub>) + *w*<sub>*s**i**de*</sub> ⋅ *A*<sub>*pq*</sub><sup>*s**i**de*</sup>                                         (6)
 
-•*A*<sub>*p**q*</sub>(*θ*<sub>0</sub>, *φ*<sub>0</sub>)：目标方向(*θ*<sub>0</sub>, *φ*<sub>0</sub>)的时空耦合系数；
+•*A*<sub>*pq*</sub>(*θ*<sub>0</sub>, *φ*<sub>0</sub>)：目标方向(*θ*<sub>0</sub>, *φ*<sub>0</sub>)的时空耦合系数；
 
-•*A*<sub>*p**q*</sub><sup>*s**i**d**e*</sup>：旁瓣区域的平均时空耦合系数$(A\_{pq}^{side} = \frac{1}{K}\sum\_{k = 1}^{K}A\_{pq}(\theta\_{k},\varphi\_{0}))$
+•*A*<sub>*pq*</sub><sup>*s**i**d**e*</sup>：旁瓣区域的平均时空耦合系数$(A_{pq}^{side} = \frac{1}{K}\sum_{k = 1}^{K}A_{pq}(\theta_{k},\varphi_{0}))$
 
 > 由于 QUBO 模型采用二进制变量*x*<sub>*p*</sub> ∈ {0, 1}，需通过标准映射*s*<sub>*p*</sub> = 2*x*<sub>*p*</sub> − 1转化，**最终 QUBO 系数结果为：**
 
-线性项（对角项）：$a\_{p} = 2\sum\_{q \neq p}^{}J\_{pq}$；
+线性项（对角项）：$a_{p} = 2\sum_{q \neq p}J\_{pq}$；
 
-二次项（非对角项）：*b*<sub>*p**q*</sub> = −8*J*<sub>*p**q*</sub>  (*p* \< *q*)；
+二次项（非对角项）：*b*<sub>*pq*</sub> = −8*J*<sub>*pq*</sub>  (*p* \< *q*)；
 
 QUBO 矩阵形式：*Q*<sub>1*b**i**t*</sub> ∈ ℝ<sup>*N* × *N*</sup> （*N*为自旋变量总数）
 
@@ -130,7 +130,7 @@ QUBO 矩阵形式：*Q*<sub>1*b**i**t*</sub> ∈ ℝ<sup>*N* × *N*</sup
 
 2 比特编码中，单个超原子的反射系数由 2 个自旋变量(*s*<sub>*p*1</sub>, *s*<sub>*p*2</sub> ∈ {−1, 1})线性组合表示：
 
-*Γ**p* = *c*1*s**p*1 + *c*2*s**p*2 (7)
+*Γp* = *c*1*sp*1 + *c*2*sp*2 (7)
 
 • 其中*c*<sub>1</sub>, *c*<sub>2</sub>为编码系数，需满足纯相位约束(\|*Γ*<sub>*p*</sub>\| = 1)与相位均匀分布（4 种相位间隔*π*/2），**推导过程如下**：  
 由于*s*<sub>*p*1</sub>, *s*<sub>*p*2</sub> ∈ {−1, 1}，*Γ*<sub>*p*</sub>的所有可能取值为：  
@@ -147,15 +147,15 @@ QUBO 矩阵形式：*Q*<sub>1*b**i**t*</sub> ∈ ℝ<sup>*N* × *N*</sup
 两式联立，得到 2 个关键约束（*c*<sup>\*</sup>表示复数共轭）：  
 **归一化条件：**\|*c*1\|<sup>2</sup> + \|*c*2\|<sup>2</sup> = 1（系数模的平方和为 1）；​
 
-**正交条件：***c*1*c*2<sup>\*</sup> + *c*1<sup>\*</sup>*c*2 = 0（系数交叉项实部为 0）。
+正交条件：***c*1*c*2<sup>\*</sup> + *c*1<sup>\*</sup>*c*2 = 0（系数交叉项实部为 0）。
 
 为简化计算且符合正交条件，设*c*1为实数、*c*2为纯虚数：
 
-令*c*1 = *a*（*a*为实数），*c*2 = *b* ⋅ *j*（*b*为实数，$j = \sqrt{- 1}$）
+令*c*1 = *a*（*a*为实数），*c*2 = *b* ⋅ *j*（*b*为实数，$j = sqrt{- 1}$
 
 代入\|*c*1\|<sup>2</sup> + \|*c*2\|<sup>2</sup> = 1，得 *a*<sup>2</sup> + *b*<sup>2</sup> = 1。
 
-为实现 “2 比特 4 种相位均匀分布（间隔*π*/2）”，取对称值$a = b = 1/\sqrt{2}$，最终：
+为实现 “2 比特 4 种相位均匀分布（间隔*π*/2）”，取对称值$a = b = 1/sqrt{2}$，最终：
 
 • $c1 = 1/\sqrt{2}$ （实数，满足归一化）；  
 • $c2 = \frac{j}{\sqrt{2}} = \frac{\exp(j\pi/2)}{\sqrt{2}}$ （纯虚数，满足正交与归一化）。
@@ -164,31 +164,31 @@ QUBO 矩阵形式：*Q*<sub>1*b**i**t*</sub> ∈ ℝ<sup>*N* × *N*</sup
 
 代入式 (3) 后，哈密顿量含“自旋-自旋跨比特耦合项”：
 
-$$H = - \sum\_{p,q}^{}{\sum\_{a,b = 1}^{2}J\_{pq}^{a,b}}s\_{pa}s\_{qb}\$11)$$
+$$H = - \sum\_{p,q}^{}{\sum\_{a,b = 1}^{2}J\_{pq}^{a,b}}s\_{pa}s\_{qb}\(11)
 
-其中 *J*<sub>*p**q*</sub><sup>*a*, *b*</sup> = *c*<sub>*a*</sub>*c*<sub>*b*</sub><sup>\*</sup>*J*<sub>*p**q*</sub>（*c*<sub>*b*</sub><sup>\*</sup>为*c*<sub>*b*</sub>的共轭,*a*, *b* = 1, 2对应两个自旋比特），*J*<sub>*p**q*</sub>同 1 比特定义。
+其中 *J*<sub>*pq*</sub><sup>*a*, *b*</sup> = *c*<sub>*a*</sub>*c*<sub>*b*</sub><sup>\*</sup>*J*<sub>*pq*</sub>（*c*<sub>*b*</sub><sup>\*</sup>为*c*<sub>*b*</sub>的共轭,*a*, *b* = 1, 2对应两个自旋比特），*J*<sub>*p**q*</sub>同 1 比特定义。
 
 **转化为 QUBO 模型:**
 
-线性项（对角项）：$a\_{pa} = 4\sum\_{(q,b) \neq (p,a)}^{}J\_{pq}^{a,b}$;
+线性项（对角项）：$a\_{pa} = 4\sum\_{(q,b) \neq (p,a)}^J\_{pq}^{a,b}$;
 
-二次项（非对角项）：*b*<sub>*p**a*, *q**b*</sub> = −8*J*<sub>*p**q*</sub><sup>*a*, *b*</sup>  (*p**a* \< *q**b*);
+二次项（非对角项）：*b*<sub>*p**a*, *qb*</sub> = −8*J*<sub>*pq*</sub><sup>*a*, *b*</sup>  (*p**a* \< *q**b*);
 
-(索引规则*p**a* \< *q**b*表示先比较超原子索引*p* \< *q*，若*p* = *q*则比较比特索引*a* \< *b*)
+(索引规则*pa* \< *qb*表示先比较超原子索引*p* \< *q*，若*p* = *q*则比较比特索引*a* \< *b*)
 
 QUBO 矩阵形式：*Q*<sub>2*b**i**t*</sub> ∈ ℝ<sup>2*N* × 2*N*</sup> （*N*为超原子总数，2*N*为自旋变量总数）。
 
 ### 四、旁瓣抑制的整合逻辑
 
-旁瓣抑制通过 “修正时空耦合系数*A*<sub>*p**q*</sub>”实现，核心是将旁瓣区域的功率贡献整合到自旋耦合系数*J*<sub>*p**q*</sub>中，具体步骤如下：
+旁瓣抑制通过 “修正时空耦合系数*A*<sub>*pq*</sub>”实现，核心是将旁瓣区域的功率贡献整合到自旋耦合系数*J*<sub>*pq*</sub>中，具体步骤如下：
 
-$${A}\_{pq}^{total} = w\_{main}A\_{pq}(\theta\_{0},\varphi\_{0}) + w\_{side}\frac{1}{K}\sum\_{k = 1}^{K}A\_{pq}(\theta\_{k},\varphi\_{0})$12)\\$$
+$${A}\_{pq}^{total} = w\_{main}A\_{pq}(\theta\_{0},\varphi\_{0}) + w\_{side}\frac{1}{K}\sum\_{k = 1}^{K}A\_{pq}(\theta\_{k},\varphi\_{0})(12)
 
-•旁瓣离散角度集：*Θ*<sub>*s**i**d**e*</sub> = {*θ*<sub>*k*</sub> ∣ *θ*<sub>*k*</sub> ∉ $$*θ*<sub>0</sub> − *Δ*, *θ*<sub>0</sub> + *Δ*$$, *k* = 1, 2, ..., *K*}：（实验中*K* = 20，*θ*<sub>*k*</sub> ∈ $$−*π*/2, *π*/2$$；
+•旁瓣离散角度集：*Θ*<sub>*s**i**de*</sub> = {*θ*<sub>*k*</sub> ∣ *θ*<sub>*k*</sub> ∉ *θ*<sub>0</sub> − *Δ*, *θ*<sub>0</sub> + *Δ*, *k* = 1, 2, ..., *K*}：（实验中*K* = 20，*θ*<sub>*k*</sub> ∈ −*π*/2, *π*/2；
 
-• *A*<sub>*p**q*</sub>(*θ*<sub>*k*</sub>, *φ*<sub>0</sub>)为超原子*p*, *q*在旁瓣角度*θ*<sub>*k*</sub>下的时空耦合系数；
+• *A*<sub>*pq*</sub>(*θ*<sub>*k*</sub>, *φ*<sub>0</sub>)为超原子*p*, *q*在旁瓣角度*θ*<sub>*k*</sub>下的时空耦合系数；
 
-• 更新*J*<sub>*p**q*</sub> ， 1 比特编码中*J*<sub>*p**q*</sub> = *R**e*(*A*<sub>*p**q*</sub><sup>*t**o**t**a**l*</sup>) ，2比特编码中*J*<sub>*p**q*</sub><sup>*a*, *b*</sup> = *c*<sub>*a*</sub>*c*<sub>*b*</sub><sup>\*</sup> ⋅ *R**e*(*A*<sub>*p**q*</sub><sup>*t**o**t**a**l*</sup>)，（取实部，因哈密顿量需为实数）
+• 更新*J*<sub>*pq*</sub> ， 1 比特编码中*J*<sub>*pq*</sub> = *Re*(*A*<sub>*pq*</sub><sup>*t**o**t**a**l*</sup>) ，2比特编码中*J*<sub>*pq*</sub><sup>*a*, *b*</sup> = *c*<sub>*a*</sub>*c*<sub>*b*</sub><sup>\*</sup> ⋅ *Re*(*A*<sub>*pq*</sub><sup>*t**o**t**a**l*</sup>)，（取实部，因哈密顿量需为实数）
 
 ### 五、建模步骤总结
 
@@ -198,9 +198,8 @@ $${A}\_{pq}^{total} = w\_{main}A\_{pq}(\theta\_{0},\varphi\_{0}) + w\_{side}\fra
 
 > **注：由于CIM真机限制(数据比特不超过550bit)，仅进行M, N, L,n-bit=8\*8\*4\*2的情况求解(原论文为8\*8\*8\*2)**
 
-#### <img src="images/media/image2.png" style="width:3.62523in;height:2.48453in" />1.参数设置及程序执行结果
-
-<img src="images/media/image3.png" style="width:3.5936in;height:2.4885in" />
+#### 1.参数设置及程序执行结果
+<img src="images/media/image2.png" style="width:3.62523in;height:2.48453in" /> <img src="images/media/image3.png" style="width:3.5936in;height:2.4885in" />
 
 #### 2.真机求解最优相位配置
 
@@ -210,11 +209,11 @@ $${A}\_{pq}^{total} = w\_{main}A\_{pq}(\theta\_{0},\varphi\_{0}) + w\_{side}\fra
 
 1.相位解码过程
 
-将 CIM 输出的二进制变量*x*<sub>*p**a*</sub>转换为超原子的离散相位，步骤如下：
+将 CIM 输出的二进制变量*x*<sub>*pa*</sub>转换为超原子的离散相位，步骤如下：
 
-二进制→自旋变量：通过*s*<sub>*p**a*</sub> = 2*x*<sub>*p**a*</sub> − 1将*x*<sub>*p**a*</sub> ∈ {0, 1}转换为*s*<sub>*p**a*</sub> ∈ {−1, 1}；
+二进制→自旋变量：通过*s*<sub>*pa*</sub> = 2*x*<sub>*pa*</sub> − 1将*x*<sub>*pa*</sub> ∈ {0, 1}转换为*s*<sub>*pa*</sub> ∈ {−1, 1}；
 
-自旋变量→反射系数：通过*Γ*<sub>*p*</sub> = *c*<sub>1</sub>*s*<sub>*p*1</sub> + *c*<sub>2</sub>*s*<sub>*p*2</sub>计算反射系数（$c\_{1} = 1/\sqrt{2},c\_{2} = j/\sqrt{2}$）；
+自旋变量→反射系数：通过*Γ*<sub>*p*</sub> = *c*<sub>1</sub>*s*<sub>*p*1</sub> + *c*<sub>2</sub>*s*<sub>*p*2</sub>计算反射系数（$c\_{1} = 1/sqrt{2},c\_{2} = j/sqrt{2}$）；
 
 反射系数→相位：提取*Γ*<sub>*p*</sub>的相位信息，得到超原子*p*在对应时间槽的相位值。
 
