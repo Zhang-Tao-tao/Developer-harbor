@@ -98,7 +98,7 @@ $A\_{pq}^{h} = \frac{\|E(\theta,\varphi)\|^{2}}{L^{2}}{sinc}^{2}\left( \frac{\pi
 
 1 比特编码下，超原子的反射系数（纯相位）直接由二进制自旋变量表示，即：
 
-*Γ*<sub>*p*</sub> = *s*<sub>*p*</sub>  (*s*<sub>*p*</sub> ∈ {−1, 1})                                       (4)
+*Γ*<sub>*p*</sub> = *s*<sub>*p*</sub>  (*s*<sub>*p*</sub> ∈ {−1, 1})        (4)
 
 物理意义：*s*<sub>*p*</sub> = 1对应一种相位状态（如 0），*s*<sub>*p*</sub> = −1对应另一种相位状态（如*π*），通过自旋变量的二进制特性描述超原子相位的离散性，同时满足\|*Γ*<sub>*p*</sub>\| = 1的纯相位约束。
 
@@ -110,7 +110,7 @@ $$H = - \sum\_{p,q}^{}J\_{pq}s\_{p}s\_{q}\(5)\$$
 
 其中*J*<sub>*pq*</sub>为自旋耦合系数，整合主波束、旁瓣与谐波的权重信息：
 
-                                    *J*<sub>*pq*</sub> = *w*<sub>*m**a**in*</sub> ⋅ *A*<sub>*pq*</sub>(*θ*<sub>0</sub>, *φ*<sub>0</sub>) + *w*<sub>*s**i**de*</sub> ⋅ *A*<sub>*pq*</sub><sup>*s**i**de*</sup>                                         (6)
+                       *J*<sub>*pq*</sub> = *w*<sub>*m**a**in*</sub> ⋅ *A*<sub>*pq*</sub>(*θ*<sub>0</sub>, *φ*<sub>0</sub>) + *w*<sub>*s**i**de*</sub> ⋅ *A*<sub>*pq*</sub><sup>*s**i**de*</sup>           (6)
 
 •*A*<sub>*pq*</sub>(*θ*<sub>0</sub>, *φ*<sub>0</sub>)：目标方向(*θ*<sub>0</sub>, *φ*<sub>0</sub>)的时空耦合系数；
 
@@ -151,7 +151,7 @@ QUBO 矩阵形式：*Q*<sub>1*b**i**t*</sub> ∈ ℝ<sup>*N* × *N*</sup
 
 为简化计算且符合正交条件，设*c*1为实数、*c*2为纯虚数：
 
-令*c*1 = *a*（*a*为实数），*c*2 = *b* ⋅ *j*（b为实数，j = $\sqrt{-1}$
+令*c*1 = *a*（*a*为实数），*c*2 = *b* ⋅ *j*（b为实数，j = $\sqrt{-1}$）
 
 代入\|*c*1\|<sup>2</sup> + \|*c*2\|<sup>2</sup> = 1，得 *a*<sup>2</sup> + *b*<sup>2</sup> = 1。
 
@@ -213,7 +213,7 @@ $${A}_{pq}^{total} = w_{main}A_{pq}(\theta_{0},\varphi_{0}) + w_{side}\frac{1}{K
 
 二进制→自旋变量：通过*s*<sub>*pa*</sub> = 2*x*<sub>*pa*</sub> − 1将*x*<sub>*pa*</sub> ∈ {0, 1}转换为*s*<sub>*pa*</sub> ∈ {−1, 1}；
 
-自旋变量→反射系数：通过*Γ*<sub>*p*</sub> = *c*<sub>1</sub>*s*<sub>*p*1</sub> + *c*<sub>2</sub>*s*<sub>*p*2</sub>计算反射系数（$c\_{1} = 1/sqrt{2},c\_{2} = j/sqrt{2}$）；
+自旋变量→反射系数：通过*Γ*<sub>*p*</sub> = *c*<sub>1</sub>*s*<sub>*p*1</sub> + *c*<sub>2</sub>*s*<sub>*p*2</sub>计算反射系数（$c1 = \frac{1}{\sqrt{2}}$,$c2 = \frac{j}{\sqrt{2}}$）；
 
 反射系数→相位：提取*Γ*<sub>*p*</sub>的相位信息，得到超原子*p*在对应时间槽的相位值。
 
