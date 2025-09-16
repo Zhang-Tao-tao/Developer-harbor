@@ -213,7 +213,7 @@ $${A}_{pq}^{total} = w_{main}A_{pq}(\theta_{0},\varphi_{0}) + w_{side}\frac{1}{K
 
 二进制→自旋变量：通过*s*<sub>*pa*</sub> = 2*x*<sub>*pa*</sub> − 1将*x*<sub>*pa*</sub> ∈ {0, 1}转换为*s*<sub>*pa*</sub> ∈ {−1, 1}；
 
-自旋变量→反射系数：通过*Γ*<sub>*p*</sub> = *c*<sub>1</sub>*s*<sub>*p*1</sub> + *c*<sub>2</sub>*s*<sub>*p*2</sub>计算反射系数（$c1 = \frac{1}{\sqrt{2}}$,$c2 = \frac{j}{\sqrt{2}}$）；
+自旋变量→反射系数：通过*Γ*<sub>*p*</sub> = *c*<sub>1</sub>*s*<sub>*p*1</sub> + *c*<sub>2</sub>*s*<sub>*p*2</sub>计算反射系数；
 
 反射系数→相位：提取*Γ*<sub>*p*</sub>的相位信息，得到超原子*p*在对应时间槽的相位值。
 
